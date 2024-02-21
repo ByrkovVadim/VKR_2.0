@@ -1,0 +1,40 @@
+﻿@using VKR_2._0.Models
+@model List<VKR_2._0.Models.Feedback>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h4>Отклики на вакансии</h4>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Соискатель</th>
+            <th>Откликнулся на вакансию</th>
+            <th>Статус</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var feedback in Model)
+        {
+            <tr>
+                <td><p>@Html.DisplayFor(m => feedback.person.Surname) @Html.DisplayFor(m => feedback.person.Name)  @Html.DisplayFor(m => feedback.person.Patronymic)</p></td>
+                <td>@feedback.vacancy.VacancyName</td>
+                <td>
+                    @if (feedback.feedbackStatus == FeedbackStatus.ACCEPTED)
+                    {
+                        <p>Отклик принят. Вы можете связаться с соискателем по телефону @feedback.person.PhoneNumber или электронной почте @feedback.person.Email</p>
+                    }
+                    else if (feedback.feedbackStatus == FeedbackStatus.REJECTED)
+                    {
+                        <p>Отклик отклонен</p>
+                    }
+                    else 
+                    {
+                        <a class="btn btn-primary" asp-controller="Feedback" asp-action="Accept" asp-route-FeedbackId="@feedback.Id">Принять</a>
+                        <a class="btn btn-primary" asp-controller="Feedback" asp-action="Reject" asp-route-FeedbackId="@feedback.Id">Отклонить</a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

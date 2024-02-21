@@ -1,0 +1,82 @@
+﻿@page
+@model AnketaModel
+@{
+    ViewData["Title"] = "Анкета";
+    ViewData["ActivePage"] = ManageNavPages.Anketa;
+}
+
+<h3>@ViewData["Title"]</h3>
+<partial name="_StatusMessage" for="StatusMessage" />
+<div class="row">
+    <div class="col-md-6">
+        <form id="anketa-form" method="post">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            
+            <div class="form-floating">
+                <input asp-for="Surname" class="form-control" autocomplete="Surname" aria-required="true" />
+                <label asp-for="Surname" class="form-label">Фамилия</label>
+                <span asp-validation-for="Surname" class="text-danger"></span>
+            </div>
+            <div class="form-floating">
+                <input asp-for="Name" class="form-control" autocomplete="Name" aria-required="true" />
+                <label asp-for="Name" class="form-label">Имя</label>
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-floating">
+                <input asp-for="Patronymic" class="form-control" autocomplete="Patronymic" aria-required="true" />
+                <label asp-for="Patronymic" class="form-label">Отчество</label>
+                <span asp-validation-for="Patronymic" class="text-danger"></span>
+            </div>
+            <div class="col-md-20">
+                @Html.Label("Пол")
+                @Html.DropDownList("Gender", ViewData["itemGender"] as SelectList, new { @class = "form-control"})
+            </div>
+            <div class="col-md-4">
+                <label asp-for="Date_of_birth" class="form-label">Дата рождения</label>
+                <input asp-for="Date_of_birth" class="form-control" autocomplete="Date_of_birth" aria-required="true" />
+                <span asp-validation-for="Date_of_birth" class="text-danger"></span>
+            </div>
+            <div class="col-md-20">
+                @Html.Label("Уровень образования")
+                @Html.DropDownList("EducationOrderId", ViewData["itemEducation"] as SelectList, new { @class = "form-control chosen-education"})
+            </div>
+            <div class="form-floating">
+                <input asp-for="Post" class="form-control" autocomplete="Post" aria-required="true" />
+                <label asp-for="Post" class="form-label">Желаемая должность</label>
+                <span asp-validation-for="Post" class="text-danger"></span>
+            </div>
+            <div class="form-floating">
+                <input asp-for="Expected_salary" class="form-control" autocomplete="Expected_salary" aria-required="true" />
+                <label asp-for="Expected_salary" class="form-label">Желательная заработная плата</label>
+                <span asp-validation-for="Expected_salary" class="text-danger"></span>
+            </div>
+            <div class="col-md-20">
+                @Html.Label("Ключевые навыки")
+                @Html.DropDownList("Skills", ViewData["itemSkill"] as MultiSelectList, new { @class = "form-control chosen-skill", multiple="multiple"})
+            </div>
+            <div class="form-floating">
+                <input asp-for="Other_information" class="form-control" autocomplete="Other_information" aria-required="true" />
+                <label asp-for="Other_information" class="form-label">Иная информация</label>
+                <span asp-validation-for="Other_information" class="text-danger"></span>
+            </div>
+            
+            <button id="change-anketa-button" type="submit" asp-page-handler="ChangeAnketa" class="w-100 btn btn-lg btn-primary">Сохранить</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script type="text/javascript">
+
+        $(function () {
+            $(".chosen-skill").chosen({
+                no_results_text: "Не найдено соответсвия",
+                placeholder_text_single: "Выберите одну опцию",
+                placeholder_text_multiple: "Выберите несколько опций"
+            });
+        });
+
+    </script>
+}

@@ -1,0 +1,40 @@
+﻿@using VKR_2._0.Models
+@model List<VKR_2._0.Models.Invitation>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h4>Приглашения от работодателей</h4>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Вакансия</th>
+            <th>Работодатель</th>
+            <th>Статус</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var invite in Model)
+        {
+            <tr>
+                <td>@invite.vacancy.VacancyName</td>
+                <td>@invite.vacancy.Employee.Organisation</td>
+                <td>
+                    @if (invite.invitationStatus == InvitationStatus.ACCEPTED)
+                    {
+                        <p>Приглашение принято. Вы можете обратиться к работодателю по телефону @invite.vacancy.Employee.PhoneNumber или электронной почте @invite.vacancy.Employee.Email</p>
+                    }
+                    else if (invite.invitationStatus == InvitationStatus.REJECTED)
+                    {
+                        <p>Приглашение отклонено</p>
+                    }
+                    else
+                    {
+                        <a class="btn btn-primary" asp-controller="Invite" asp-action="Accept" asp-route-InviteId="@invite.Id">Принять</a>
+                        <a class="btn btn-primary" asp-controller="Invite" asp-action="Reject" asp-route-InviteId="@invite.Id">Отклонить</a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

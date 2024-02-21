@@ -1,0 +1,71 @@
+﻿@page
+@model OrganisationModel
+@{
+    ViewData["Title"] = "Организация";
+    ViewData["ActivePage"] = ManageNavPages.Organisation;
+}
+
+<h3>@ViewData["Title"]</h3>
+<partial name="_StatusMessage" for="StatusMessage" />
+<div class="row">
+    <div class="col-md-6">
+        <form id="organisation-form" method="post">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            @*@if (Model.IsEmailConfirmed)
+            {
+                <div class="form-floating input-group">
+                    <input asp-for="Email" class="form-control" disabled />
+                        <div class="input-group-append">
+                            <span class="h-100 input-group-text text-success font-weight-bold">✓</span>
+                        </div>
+                    <label asp-for="Email" class="form-label"></label>
+                </div>
+            }
+            else
+            {
+                <div class="form-floating">
+                    <input asp-for="Email" class="form-control" disabled />
+                    <label asp-for="Email" class="form-label"></label>
+                    <button id="email-verification" type="submit" asp-page-handler="SendVerificationEmail" class="btn btn-link">Send verification email</button>
+                </div>
+            }*@
+            <div class="form-floating">
+                <input asp-for="Organisation" class="form-control" autocomplete="Organisation" aria-required="true" />
+                <label asp-for="Organisation" class="form-label">Название организации</label>
+                <span asp-validation-for="Organisation" class="text-danger"></span>
+            </div>
+            <div class="col-md-20">
+                @Html.Label("Сфера деятельности")
+                @Html.DropDownList("SelectedOrderId", ViewData["itemAreaActivity"] as SelectList, new { @class = "form-control chosen-area"})
+            </div>
+            <div class="form-floating">
+                <input asp-for="Adress" class="form-control" autocomplete="Adress" aria-required="true" />
+                <label asp-for="Adress" class="form-label">Адрес</label>
+                <span asp-validation-for="Adress" class="text-danger"></span>
+            </div>
+            <div class="form-floating">
+                <input asp-for="ContactPerson" class="form-control" autocomplete="ContactPerson" aria-required="true" />
+                <label asp-for="ContactPerson" class="form-label">Контактное лицо</label>
+                <span asp-validation-for="ContactPerson" class="text-danger"></span>
+            </div>
+            
+            <button id="change-organisation-button" type="submit" asp-page-handler="ChangeOrganisation" class="w-100 btn btn-lg btn-primary">Сохранить</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script type="text/javascript">
+
+        //$(function () {
+        //    $(".chosen-area").chosen({
+        //        no_results_text: "Не найдено соответсвия",
+        //        placeholder_text_single: "Выберите одну опцию",
+        //        placeholder_text_multiple: "Выберите несколько опций"
+        //    });
+        //});
+
+    </script>
+}

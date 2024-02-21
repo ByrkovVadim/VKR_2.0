@@ -1,0 +1,78 @@
+﻿@model VKR_2._0.Models.Vacancy
+
+@{
+    ViewData["Title"] = "Редактирование вакансии";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h4>Редактирование вакансии</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="VacancyName" class="control-label">Наименование вакансии</label>
+                <input asp-for="VacancyName" class="form-control" />
+                <span asp-validation-for="VacancyName" class="text-danger"></span>
+            </div>
+            <div class="col-md-20">
+                @Html.Label("Образование")
+                @Html.DropDownList("Education", ViewData["itemEducation"] as List<SelectListItem> , new { @class = "form-control chosen-education"})
+            </div>
+            <div class="col-md-20">
+                @Html.Label("Ключевые навыки")
+                @Html.DropDownList("Skills", ViewData["itemSkill"] as MultiSelectList, new { @class = "form-control chosen-skill", multiple="multiple"})
+            </div>
+            <div class="form-group">
+                <label asp-for="ForeignLanguages" class="form-label">Владение иностранными языками</label>
+                <input asp-for="ForeignLanguages" class="form-control" autocomplete="ForeignLanguages" />
+                <span asp-validation-for="ForeignLanguages" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="JobFunction" class="form-label">Должностные обязанности</label>
+                <input asp-for="JobFunction" class="form-control" autocomplete="JobFunction" />
+                <span asp-validation-for="JobFunction" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Salary" class="form-label">Уровень зарплаты</label>
+                <input asp-for="Salary" class="form-control" autocomplete="Salary" />
+                <span asp-validation-for="Salary" class="text-danger"></span>
+            </div>
+            <div class="col-md-20">
+                @Html.Label("Дополнительная информация")
+                @Html.TextArea("Info", Model.Info, new { @class = "form-control" })
+            </div>
+            <div class="checkbox">
+                <label asp-for="isPublish" class="form-label">
+                    <input class="form-check-input" asp-for="isPublish" />
+                    опубликовать
+                </label>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Сохранить" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Назад</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script type="text/javascript">
+
+        $(function () {
+            $(".chosen-skill").chosen({
+                no_results_text: "Не найдено соответсвия",
+                placeholder_text_single: "Выберите одну опцию",
+                placeholder_text_multiple: "Выберите несколько опций"
+            });
+        });
+
+    </script>
+}

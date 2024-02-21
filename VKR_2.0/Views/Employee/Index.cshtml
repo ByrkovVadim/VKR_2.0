@@ -1,0 +1,26 @@
+﻿@using VKR_2._0.Models
+@model List<VKR_2._0.Models.EmployeeModel>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h3>Список работодателей</h3>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Работодатель</th>
+            <th>Сфера деятельности</th>
+            <th>Открытых вакансий</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var employee in Model)
+        {
+            <tr>
+                <td>@employee.Organisation</td>
+                <td>@employee.Area</td>
+                <td>@employee.numVacancy</td>
+            </tr>
+        }
+    </tbody>
+</table>

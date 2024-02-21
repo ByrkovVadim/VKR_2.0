@@ -1,0 +1,18 @@
+﻿@model VKR_2._0.Models.VacancySelectModel
+@{
+    ViewData["Title"] = "Выбор вакансии";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Предложить вакансию @Model.PersonName?</h1>
+
+<form asp-controller="Invite" asp-action="SelectVacancy" method="post">
+    <input name="personId" type="hidden" value="@Model.PersonId">
+    <div class="mb-3">
+        <label class="form-label">выберите вакансию</label>
+        <select class="" asp-items="@Model.VacancyList" asp-for="SelectedVacancyId"></select>
+    </div>
+    <div class="mb-3">
+        <button type="submit" class="btn btn-primary">Пригласить</button>
+    </div>
+</form>

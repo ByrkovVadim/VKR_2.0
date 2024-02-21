@@ -1,0 +1,68 @@
+﻿@model VKR_2._0.Models.Vacancy
+
+@{
+    ViewData["Title"] = "Просмотр вакансии";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h4>Просмотр вакансии</h4>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">Название</dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.VacancyName)
+        </dd>
+        <dt class="col-sm-2">Требуемый уровень образования</dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Education.EducationName)
+        </dd>
+        <dt class="col-sm-2">Требуемая квалификация</dt>
+        <dd class="col-sm-10">
+            @*@foreach (var skillVacancy in Model.SkillVacancy)
+            {
+                @Html.DisplayFor(o => skillVacancy.Skill.SkillName)
+            }*@
+            @String.Join(", ", Model.SkillVacancy.Select(p => p.Skill.SkillName).ToArray())
+        </dd>
+        <dt class="col-sm-2">Владение иностранными языками</dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ForeignLanguages)
+        </dd>
+        <dt class="col-sm-2">Должностные обязанности</dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.JobFunction)
+        </dd>
+        <dt class="col-sm-2">Уровень зарплаты</dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Salary)
+        </dd>
+        <dt class="col-sm-2">Иная информация</dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Info)
+        </dd>
+        @if (this.User.IsInRole("Employer")) 
+        {
+            <dt class="col-sm-2">На публикации</dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.isPublish)
+            </dd>
+        }
+        <dt class = "col-sm-2">Дата создания</dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DateCreate)
+        </dd>
+        <dt class = "col-sm-2">Дата изменения</dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DateUpdate)
+        </dd>
+    </dl>
+</div>
+<div>
+    @if (this.User.IsInRole("Employer")) {
+        <a asp-action="Edit" asp-route-id="@Model?.Id">Редактировать</a>
+        <span> &#448; </span>
+    }
+    <a asp-action="Index">Назад</a>
+</div>

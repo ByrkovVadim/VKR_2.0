@@ -1,0 +1,64 @@
+﻿@using VKR_2._0.Models
+@model List<VKR_2._0.Models.VacancyModel>
+@{
+    ViewData["Title"] = "Вакансии";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h1>Список вакансий</h1>
+@*@Html.ActionLink("Добавить новую вакансию", "Add")*@
+@if (this.User.IsInRole("Employer"))
+{
+    <a class="btn btn-primary" asp-controller="Vacancy" asp-action="Create">Добавить новую вакансию</a>
+}
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Название вакансии</th>
+            <th>Работодатель</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var vacancy in Model)
+        {
+            <tr>
+                <td>@vacancy.VacancyName</td>
+                <td>@vacancy.EmployeeName</td>
+@*                <td>@string.Join(" , ", user..Roles.ToList())</td>*@
+
+                <td>
+                    <a class="btn btn-primary" asp-controller="Vacancy" asp-action="Detail" asp-route-vacancyId="@vacancy.VacancyId">Просмотр</a>
+                </td>
+                @if (this.User.IsInRole("Applicant"))
+                {
+                    <td>
+                        @if (vacancy.isFeedback)
+                        {
+                            if (vacancy.FeedbackStatus == FeedbackStatus.REJECTED)
+                            {
+                                <text>Отклонено работодателем</text>
+                            }
+                            else if (vacancy.FeedbackStatus == FeedbackStatus.ACCEPTED)
+                            {
+                                <text>@vacancy.FeedbackText</text>
+                            }
+                            else if (vacancy.FeedbackStatus == FeedbackStatus.NEW)
+                            {
+                                <text>Отклик отправлен работодателю</text>
+                            }
+                        } 
+                        else 
+                        {
+                            <a class="btn btn-primary" asp-controller="Vacancy" asp-action="Feedback" asp-route-vacancyId="@vacancy.VacancyId">Откликнуться</a>
+                        }
+                    </td>
+                }
+                @if (this.User.IsInRole("Employer"))
+                {
+                    <td>
+                        <a class="btn btn-primary" asp-controller="Vacancy" asp-action="Index" asp-route-vacancyId="@vacancy.VacancyId">Удалить</a>
+                    </td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>
